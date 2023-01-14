@@ -18,7 +18,7 @@ class MainController extends Controller
     {
         $this->domainTelegram = env('TELEGRAM_API').env('TOKEN').'/';
         $this->token = env('TOKEN');
-        $this->host = env('HOST');
+        $this->host = env('HOST').'v1/';
     }
 
     public function setWebhook()
