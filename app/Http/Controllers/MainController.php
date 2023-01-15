@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class MainController extends Controller
 {
@@ -21,10 +23,14 @@ class MainController extends Controller
         $this->host = env('HOST').'v1/';
     }
 
-    public function setWebhook()
+    /**
+     * Единый точка входа для запросов от телеграм
+     *
+     */
+    public function main()
     {
-        $client = new Client(['base_uri' => $this->domainTelegram]);
-        $response = $client->get("setWebhook?url={$this->host}");
-        return response()->json($response->getBody());
+        $data = file_get_contents('php://input');
+
+        Log::info( $data );
     }
 }
