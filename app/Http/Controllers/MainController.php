@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Client;
+
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class MainController extends Controller
 {
@@ -27,10 +27,8 @@ class MainController extends Controller
      * Единый точка входа для запросов от телеграм
      *
      */
-    public function main()
+    public function main(Request $request)
     {
-        $data = file_get_contents('php://input');
-
-        Log::info( $data );
+        Log::info($request->getContent());
     }
 }
