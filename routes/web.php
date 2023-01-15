@@ -18,5 +18,5 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
-    $router->get('main','MainController@main');
+    $router->post('main','MainController@main');
 });
