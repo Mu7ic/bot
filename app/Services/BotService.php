@@ -40,7 +40,7 @@ class BotService
     public function sendMessage()
     {
         $client = new Client();
-        $request = new Request('GET', $this->host);
+        $request = new Request('GET', $this->host.self::SEND_MESSAGE);
         return $client->send($request, [
             'query' => [
                 'chat_id' => $this->chat_id,
