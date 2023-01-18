@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Services\BotService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -30,5 +31,7 @@ class MainController extends Controller
     public function main(Request $request)
     {
         Log::info($request->getContent());
+        $bot = new BotService($request->request);
+        var_dump($bot->sendMessage());
     }
 }
