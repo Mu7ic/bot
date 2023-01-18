@@ -25,7 +25,7 @@ class MainController extends Controller
     }
 
     /**
-     * Единый точка входа для запросов от телеграм
+     * Единый точка входа для запросов
      *
      */
     public function main(Request $request)
