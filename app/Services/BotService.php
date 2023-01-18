@@ -30,6 +30,10 @@ class BotService
         $this->host = $this->api . $this->token;
 
         $this->chat_id = $this->message['chat']['id'];
+
+        if ($this->message['text'] == self::COMMAND_START && !$this->message['from']['is_bot']) {
+            $this->sendMessage(self::SEND_MESSAGE, $this->getMessagesHello());
+        }
     }
 
     public function methods()
@@ -37,14 +41,14 @@ class BotService
 
     }
 
-    public function sendMessage()
+    public function sendMessage($method, $text)
     {
         $client = new Client();
-        $request = new Request('GET', $this->host.self::SEND_MESSAGE);
+        $request = new Request('GET', $this->host . $method);
         return $client->send($request, [
             'query' => [
                 'chat_id' => $this->chat_id,
-                'text' => $this->getMessagesHello(),
+                'text' => $text,
                 'parse_mode' => 'html'
             ]
         ]);

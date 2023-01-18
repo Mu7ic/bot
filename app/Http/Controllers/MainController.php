@@ -31,7 +31,6 @@ class MainController extends Controller
     public function main(Request $request)
     {
         Log::info($request->getContent());
-        $bot = new BotService($request->request);
-        var_dump($bot->sendMessage());
+        new BotService($request->request);
     }
 }
