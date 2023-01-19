@@ -61,7 +61,7 @@ class BotService
                             'callback_data' => 'auth',
                         ],
                         [
-                            'text' => 'Часто задаваемые вопросы',
+                            'text' => 'Какая помощь вам нужна?',
                             'callback_data' => 'questions',
                         ],
                     ]
