@@ -20,7 +20,6 @@ class BotService
     public string $type_bot_command = 'bot_command';
 
     public int $chat_id;
-    public bool $is_bot = false;
 
     function __construct($message)
     {
@@ -32,7 +31,7 @@ class BotService
         $this->chat_id = $this->message['chat']['id'];
 
         if ($this->message['text'] == self::COMMAND_START && !$this->message['from']['is_bot']) {
-            $this->sendMessage(self::SEND_MESSAGE, $this->getMessagesHello());
+            $this->sendMessage(self::SEND_MESSAGE, $this->getMessagesHello(),'go');
         }
     }
 
@@ -41,17 +40,36 @@ class BotService
 
     }
 
-    public function sendMessage($method, $text)
+    public function sendMessage($method, $text, $rely_markup = null)
     {
         $client = new Client();
         $request = new Request('GET', $this->host . $method);
-        return $client->send($request, [
+
+        $data = [
             'query' => [
                 'chat_id' => $this->chat_id,
                 'text' => $text,
-                'parse_mode' => 'html'
             ]
-        ]);
+        ];
+
+        if ($rely_markup) {
+            $data["query"]["reply_markup"] = json_encode([
+                'inline_keyboard' => [
+                    [
+                        [
+                            'text' => 'Авторизоваться',
+                            'callback_data' => 'auth',
+                        ],
+                        [
+                            'text' => 'Часто задаваемые вопросы',
+                            'callback_data' => 'questions',
+                        ],
+                    ]
+                ],
+            ]);
+        }
+
+        return $client->send($request, $data);
     }
 
     public function getMessagesHello()
