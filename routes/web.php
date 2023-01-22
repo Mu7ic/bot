@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::get('/main', function (Request $request) {
+    Route::post('/main', function (Request $request) {
         Log::info($request->getContent());
         new BotService($request->request);
     });
