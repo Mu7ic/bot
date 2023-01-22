@@ -38,6 +38,7 @@ class BotService
             }
         }
         if (isset($this->callback)) {
+            $this->chat_id = $this->callback['message']['chat']['id'];
             $this->sendMessage(self::SEND_MESSAGE, Messages::getMessage(Messages::AUTH));
         }
     }
