@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Messages;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
@@ -15,23 +16,29 @@ class BotService
     private string $token;
     private string $api;
 
-    public $message;
-
-    public string $type_bot_command = 'bot_command';
+    public $message, $callback;
 
     public int $chat_id;
 
     function __construct($message)
     {
         $this->message = $message->get('message');
+
+        $this->callback = $message->get('callback_query');
+
         $this->api = env("TELEGRAM_API");
         $this->token = env("TOKEN");
         $this->host = $this->api . $this->token;
 
         $this->chat_id = $this->message['chat']['id'];
 
-        if ($this->message['text'] == self::COMMAND_START && !$this->message['from']['is_bot']) {
-            $this->sendMessage(self::SEND_MESSAGE, $this->getMessagesHello(), 'go');
+        if (isset($this->message)) {
+            if ($this->message['text'] == self::COMMAND_START && !$this->message['from']['is_bot']) {
+                $this->sendMessage(self::SEND_MESSAGE, Messages::getMessage(Messages::HELLO), 'go');
+            }
+        }
+        if (isset($this->callback)) {
+            $this->sendMessage(self::SEND_MESSAGE, Messages::getMessage(Messages::AUTH));
         }
     }
 
@@ -40,7 +47,16 @@ class BotService
 
     }
 
-    public function sendMessage($method, $text, $rely_markup = null)
+    /**
+     * Отправка сообщений
+     *
+     * @param $method
+     * @param $text
+     * @param null $rely_markup
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function sendMessage($method, $text, $rely_markup = null): \Psr\Http\Message\ResponseInterface
     {
         $client = new Client();
         $request = new Request('GET', $this->host . $method);
@@ -49,6 +65,7 @@ class BotService
             'query' => [
                 'chat_id' => $this->chat_id,
                 'text' => $text,
+                'parse_mode' => 'html'
             ]
         ];
 

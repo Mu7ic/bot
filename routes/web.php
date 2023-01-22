@@ -1,7 +1,9 @@
 <?php
 
+use App\Services\BotService;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +20,8 @@ Route::get('/', function () {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::get('/main', function () {
-        echo 1;
+    Route::get('/main', function (Request $request) {
+        Log::info($request->getContent());
+        new BotService($request->request);
     });
 });
