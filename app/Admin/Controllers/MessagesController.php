@@ -64,7 +64,7 @@ class MessagesController extends AdminController
         $form = new Form(new Messages());
 
         $form->text('type', __('Тип'));
-        $form->text('text', __('Сообщения'));
+        $form->textarea('text', __('Сообщения'));
 
         return $form;
     }
