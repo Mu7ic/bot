@@ -22,7 +22,7 @@ class BotService
 
     function __construct($message)
     {
-        $this->message = $message->get('message');
+        $this->message = $message->get('message') ?? $message->get('callback_query')['message'];
 
         $this->callback = $message->get('callback_query');
 
@@ -88,10 +88,5 @@ class BotService
         }
 
         return $client->send($request, $data);
-    }
-
-    public function getMessagesHello()
-    {
-        return 'Здравствуйте, чем помочь?';
     }
 }
