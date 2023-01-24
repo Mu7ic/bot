@@ -66,7 +66,7 @@ class BotService
             'query' => [
                 'chat_id' => $this->chat_id,
                 'text' => $text,
-                'parse_mode' => 'Markdown'
+                'parse_mode' => 'html'
             ]
         ];
 
