@@ -75,7 +75,7 @@ class BotService
                 'inline_keyboard' => [
                     [
                         [
-                            'text' => 'Авторизоваться',
+                            'text' => 'Обратиться к юристу',
                             'callback_data' => 'auth',
                         ],
                         [
